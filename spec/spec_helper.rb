@@ -1,5 +1,8 @@
 require 'bundler'
+require 'logger'
 Bundler.require(:default)
+
+#ActiveRecord::Base.logger = Logger.new(STDERR)
 
 def postgis_connection
   ActiveRecord::Base.establish_connection(

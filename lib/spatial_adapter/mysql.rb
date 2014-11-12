@@ -16,7 +16,7 @@ module ActiveRecord::ConnectionAdapters
           if field[1] =~ GEOMETRY_REGEXP
             ActiveRecord::ConnectionAdapters::SpatialMysqlColumn
           else
-            ActiveRecord::ConnectionAdapters::MysqlColumn
+            ActiveRecord::ConnectionAdapters::MysqlAdapter::Column
           end
         columns << klass.new(field[0], field[4], field[1], field[2] == "YES")
       end
@@ -43,13 +43,22 @@ module ActiveRecord::ConnectionAdapters
       indexes
     end
 
+    def quote(value, column = nil)
+      if value.kind_of?(String) && column && column.type == :binary && column.class.respond_to?(:string_to_binary)
+        s = column.class.string_to_binary(value).unpack("H*")[0]
+        "x'#{s}'"
+      else
+        super
+      end
+    end
+
     def options_for(table)
       engine = show_table_status_like(table).fetch_row[1]
       engine !~ /inno/i ? "ENGINE=#{engine}" : nil
     end
   end
 
-  class SpatialMysqlColumn < MysqlColumn
+  class SpatialMysqlColumn < Column
     include SpatialAdapter::SpatialColumn
     extend SpatialAdapter::Base::Mysql::SpatialColumn
   end

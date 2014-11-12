@@ -16,6 +16,7 @@ module SpatialAdapter::Base::Mysql
         # Redefines the quote method to add behaviour for when a Geometry is
         # encountered ; used when binding variables in find_by methods
         def quote(value, column = nil)
+          $stderr.puts "==============================Quoting: #{value.inspect}, type=#{value.class}"
           if value.kind_of?(GeoRuby::SimpleFeatures::Geometry)
             "GeomFromWKB(0x#{value.as_hex_wkb},#{value.srid})"
           else

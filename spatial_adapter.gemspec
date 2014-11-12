@@ -23,10 +23,10 @@ Gem::Specification.new do |s|
   s.require_paths = ["lib"]
 
   s.add_development_dependency 'rake'
-  s.add_development_dependency 'rspec'
+  s.add_development_dependency 'rspec', '~> 2.7.0'
   if s.platform.to_s == 'ruby'
     s.add_development_dependency 'pg'
-    s.add_development_dependency 'mysql'
+    s.add_development_dependency 'mysql', '2.8.1'
     s.add_development_dependency 'mysql2', '<= 0.2.13'
   end
 
@@ -34,6 +34,6 @@ Gem::Specification.new do |s|
     s.add_development_dependency 'activerecord-jdbcmysql-adapter'
   end
 
-  s.add_dependency 'activerecord', '>= 2.2.2', '< 3.2.0'
-  s.add_dependency 'GeoRuby', '>= 1.3.0'
+  s.add_dependency 'activerecord', '>= 2.2.2', '< 4.0'
+  s.add_dependency 'GeoRuby', '1.3.4'
 end
