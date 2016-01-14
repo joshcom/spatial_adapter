@@ -269,7 +269,7 @@ ActiveRecord::ConnectionAdapters::IBM_DBAdapter.class_eval do
   # DataFabric.activate_shard(:region => "armls")
   def column_spatial_info(table_name)
     begin
-      constr = select("SELECT * FROM DB2GSE.ST_GEOMETRY_COLUMNS WHERE TABLE_NAME = '#{table_name.upcase}'")
+      constr = select("SELECT * FROM DB2GSE.ST_GEOMETRY_COLUMNS WHERE TABLE_NAME = '#{table_name.upcase}' WITH UR")
     rescue
       return {}
     end
